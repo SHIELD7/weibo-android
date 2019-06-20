@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">微博</string>
+
+    <!--登录注册-->
+    <string name="login_username">用户名</string>
+    <string name="login_password">密码</string>
+    <string name="btn_login">登录</string>
+    <string name="check_remember">记住密码</string>
+    <string name="register_re_password">确认密码</string>
+    <string name="btn_register">注册</string>
+    <string name="link_login">已有账号？去登录</string>
+    <string name="link_register">还没有账号？去注册</string>
+
+    <!--抽屉菜单-->
+    <string name="drawer_profile">我的主页</string>
+    <string name="drawer_edit_profile">个人信息</string>
+    <string name="drawer_comment_like">我的评论和赞</string>
+    <string name="drawer_collect">我的收藏</string>
+    <string name="drawer_friends">我的好友</string>
+    <string name="drawer_topic">关注的话题</string>
+    <string name="drawer_theme">主题风格</string>
+    <string name="drawer_setting">设置</string>
+    <string name="drawer_github">github</string>
+    <string name="drawer_logout">退出账号</string>
+    <string name="title_activity_profile">ProfileActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_collect">CollectActivity</string>
+
+
+    <!--weibo_activity-->
+    <string name="comment_hint">添加评论...</string>
+
+</resources>

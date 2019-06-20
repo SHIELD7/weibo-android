@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/MatchWrap"
+    android:padding="8dp">
+
+    <cn.bingoogolapple.photopicker.widget.BGAImageView
+        android:id="@+id/weibo_user_avatar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="8dp"
+        app:bga_iv_circle="true"/>
+
+    <TextView
+        android:id="@+id/weibo_username"
+        style="@style/MatchWrap"
+        android:layout_toRightOf="@id/weibo_user_avatar"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="@color/primary_text"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/weibo_post_time"
+        style="@style/MatchWrap"
+        android:layout_below="@+id/weibo_username"
+        android:layout_toRightOf="@id/weibo_user_avatar"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="#707EA3"
+        android:textSize="14sp"/>
+    <TextView
+        android:id="@+id/weibo_content"
+        style="@style/MatchWrap"
+        android:layout_below="@id/weibo_post_time"
+        android:layout_toRightOf="@id/weibo_user_avatar"
+        android:layout_marginTop="4dp"
+        android:ellipsize="end"
+        android:maxLines="4"
+        android:textColor="#474747"
+        android:textSize="14sp" />
+
+
+    <cn.bingoogolapple.photopicker.widget.BGANinePhotoLayout
+        android:id="@+id/weibo_photos"
+        style="@style/MatchWrap"
+        android:layout_below="@id/weibo_content"
+        android:layout_toRightOf="@id/weibo_user_avatar"
+        android:layout_marginTop="8dp"
+        app:bga_npl_itemCornerRadius="0dp"
+        app:bga_npl_itemSpanCount="3"
+        app:bga_npl_itemWhiteSpacing="4dp"
+        app:bga_npl_itemWidth="0dp"
+        app:bga_npl_otherWhiteSpacing="64dp"
+        app:bga_npl_placeholderDrawable="@mipmap/bga_pp_ic_holder_light"
+        app:bga_npl_showAsLargeWhenOnlyOne="true"/>
+
+    <LinearLayout
+        android:layout_toRightOf="@id/weibo_user_avatar"
+        android:layout_below="@id/weibo_photos"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <com.sackcentury.shinebuttonlib.ShineButton
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@android:color/darker_gray"
+                android:id="@+id/weibo_repost"
+                app:btn_color="@android:color/darker_gray"
+                app:btn_fill_color="@android:color/holo_red_light"
+                app:allow_random_color="false"
+                app:shine_size="18dp"
+                app:siShape="@raw/star"/>
+
+
+            <TextView
+                android:id="@+id/repost_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"/>
+
+         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <com.sackcentury.shinebuttonlib.ShineButton
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@android:color/darker_gray"
+                android:id="@+id/weibo_comment"
+                app:btn_color="@android:color/darker_gray"
+                app:btn_fill_color="@android:color/holo_red_light"
+                app:allow_random_color="false"
+                app:shine_size="18dp"
+                app:siShape="@raw/smile"/>
+            <TextView
+                android:id="@+id/comment_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.sackcentury.shinebuttonlib.ShineButton
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@android:color/darker_gray"
+                android:id="@+id/weibo_like"
+                app:btn_color="@android:color/darker_gray"
+                app:btn_fill_color="@android:color/holo_red_light"
+                app:allow_random_color="false"
+                app:shine_size="18dp"
+                app:siShape="@raw/heart"/>
+
+            <TextView
+                android:id="@+id/like_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"/>
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+
+
+
+</RelativeLayout>
+

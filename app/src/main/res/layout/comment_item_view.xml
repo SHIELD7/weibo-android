@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/MatchWrap"
+    android:padding="8dp">
+
+    <cn.bingoogolapple.photopicker.widget.BGAImageView
+        android:id="@+id/commenter_user_avatar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="8dp"
+        app:bga_iv_circle="true"/>
+
+    <TextView
+        android:id="@+id/commenter_username"
+        style="@style/MatchWrap"
+        android:layout_toRightOf="@id/commenter_user_avatar"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="@color/primary_text"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/commenter_time"
+        style="@style/MatchWrap"
+        android:layout_toRightOf="@id/commenter_user_avatar"
+        android:layout_below="@id/commenter_username"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="#707EA3"
+        android:textSize="14sp"/>
+
+
+    <TextView
+        android:id="@+id/commenter_content"
+        style="@style/MatchWrap"
+        android:layout_toRightOf="@id/commenter_user_avatar"
+        android:layout_below="@id/commenter_time"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="#707EA3"
+        android:textSize="14sp"/>
+
+</RelativeLayout>
+

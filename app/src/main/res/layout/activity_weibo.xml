@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="site.imcu.weibo.WeiboActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:minHeight="48dp"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        app:titleTextColor="@color/white"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp">
+
+            <cn.bingoogolapple.photopicker.widget.BGAImageView
+                android:id="@+id/weibo_user_avatar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="8dp"
+                app:bga_iv_circle="true"/>
+
+            <TextView
+                android:id="@+id/weibo_username"
+                style="@style/MatchWrap"
+                android:layout_toEndOf="@id/weibo_user_avatar"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="@color/primary_text"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@+id/weibo_post_time"
+                style="@style/MatchWrap"
+                android:layout_below="@+id/weibo_username"
+                android:layout_toEndOf="@id/weibo_user_avatar"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="#707EA3"
+                android:textSize="14sp"/>
+            <TextView
+                android:id="@+id/weibo_content"
+                style="@style/MatchWrap"
+                android:layout_below="@id/weibo_post_time"
+                android:layout_toEndOf="@id/weibo_user_avatar"
+                android:layout_marginTop="4dp"
+                android:ellipsize="end"
+                android:maxLines="4"
+                android:textColor="#474747"
+                android:textSize="14sp" />
+
+
+            <cn.bingoogolapple.photopicker.widget.BGANinePhotoLayout
+                android:id="@+id/weibo_photos"
+                style="@style/MatchWrap"
+                android:layout_below="@id/weibo_content"
+                android:layout_toEndOf="@id/weibo_user_avatar"
+                android:layout_marginTop="8dp"
+                app:bga_npl_itemCornerRadius="0dp"
+                app:bga_npl_itemSpanCount="3"
+                app:bga_npl_itemWhiteSpacing="4dp"
+                app:bga_npl_itemWidth="0dp"
+                app:bga_npl_otherWhiteSpacing="64dp"
+                app:bga_npl_placeholderDrawable="@mipmap/bga_pp_ic_holder_light"
+                app:bga_npl_showAsLargeWhenOnlyOne="true"/>
+
+            <LinearLayout
+                android:id="@+id/linear"
+                android:layout_below="@id/weibo_photos"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <com.scwang.smartrefresh.layout.SmartRefreshLayout
+                    android:id="@+id/refreshLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:overScrollMode="never"
+                        android:background="#fff" />
+
+                </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/white"
+                android:elevation="8dp">
+
+                <cn.bingoogolapple.photopicker.widget.BGAImageView
+                    android:id="@+id/my_avatar"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center_vertical"
+                    app:bga_iv_circle="true"/>
+
+                <TextView
+                    android:id="@+id/btn_add_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="@string/comment_hint"
+                    android:textColorHint="@color/textHint"
+                    android:textColor="@color/primary_text"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:ellipsize="end"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+</LinearLayout>
+
