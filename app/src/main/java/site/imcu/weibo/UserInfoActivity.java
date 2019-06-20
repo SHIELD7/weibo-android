@@ -1,45 +1,45 @@
 package site.imcu.weibo;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 
-import android.Manifest;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestOptions;
+import com.vondear.rxtool.RxPhotoTool;
+import com.vondear.rxtool.RxSPTool;
+import com.vondear.rxtool.RxTool;
+import com.vondear.rxui.view.dialog.RxDialogChooseImage;
+import com.yalantis.ucrop.UCrop;
+import com.yalantis.ucrop.UCropActivity;
 
 import java.io.File;
 import java.net.FileNameMap;
 import java.net.URLConnection;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.bingoogolapple.baseadapter.BGABaseAdapterUtil;
-import cn.bingoogolapple.photopicker.imageloader.BGAImage;
-import cn.bingoogolapple.photopicker.util.BGAPhotoHelper;
-import cn.bingoogolapple.photopicker.util.BGAPhotoPickerUtil;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import pub.devrel.easypermissions.AfterPermissionGranted;
-import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -49,7 +49,9 @@ import rx.schedulers.Schedulers;
 import site.imcu.weibo.net.UserService;
 import site.imcu.weibo.po.UserVo;
 
-public class UserInfoActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks{
+import static com.vondear.rxui.view.dialog.RxDialogChooseImage.LayoutType.TITLE;
+
+public class UserInfoActivity extends AppCompatActivity{
 
     private static final String TAG = "UserInfoActivity";
 
@@ -57,14 +59,7 @@ public class UserInfoActivity extends AppCompatActivity implements EasyPermissio
     ImageView imageAvatar;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
-
-    private static final int REQUEST_CODE_PERMISSION_CHOOSE_PHOTO = 1;
-    private static final int REQUEST_CODE_CHOOSE_PHOTO = 1;
-    private static final int REQUEST_CODE_CROP = 3;
-
-
-    private BGAPhotoHelper bgaPhotoHelper;
+    private Uri resultUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,21 +74,15 @@ public class UserInfoActivity extends AppCompatActivity implements EasyPermissio
         if (getSupportActionBar()!=null){
             getSupportActionBar().setTitle("用户资料");
         }
-        File takePhotoDir = new File(Environment.getExternalStorageDirectory(), "BGAPhotoPickerTakePhoto");
-        bgaPhotoHelper = new BGAPhotoHelper(takePhotoDir);
+        RxTool.init(this);
+        imageAvatar.setOnClickListener(v -> initDialogChooseImage());
     }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        BGAPhotoHelper.onSaveInstanceState(bgaPhotoHelper, outState);
+    private void initDialogChooseImage() {
+        RxDialogChooseImage dialogChooseImage = new RxDialogChooseImage(UserInfoActivity.this, TITLE);
+        dialogChooseImage.show();
     }
 
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        BGAPhotoHelper.onRestoreInstanceState(bgaPhotoHelper, savedInstanceState);
-    }
 
 
     @OnClick(R.id.btn_submit)
@@ -106,13 +95,7 @@ public class UserInfoActivity extends AppCompatActivity implements EasyPermissio
         UserService userService = retrofit.create(UserService.class);
         Log.d(TAG, "onSubmit: ");
 
-        if (bgaPhotoHelper.getCropFilePath()==null){
-            Toast.makeText(UserInfoActivity.this,"文件不存在",Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-
-        File file = new File(bgaPhotoHelper.getCropFilePath());
+        File file = new File(resultUri.getPath());
 
         Map<String,String> headers = new HashMap<>();
         headers.put("Authorization", MainActivity.USER_TOKEN);
@@ -178,75 +161,81 @@ public class UserInfoActivity extends AppCompatActivity implements EasyPermissio
     }
 
 
-    @OnClick(R.id.choose_system)
-    @AfterPermissionGranted(REQUEST_CODE_PERMISSION_CHOOSE_PHOTO)
-    public void choosePhoto() {
-        String[] perms = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        if (EasyPermissions.hasPermissions(this, perms)) {
-            startActivityForResult(bgaPhotoHelper.getChooseSystemGalleryIntent(), REQUEST_CODE_CHOOSE_PHOTO);
-        } else {
-            EasyPermissions.requestPermissions(this, "请开起存储空间权限，以正常使用 Demo", REQUEST_CODE_PERMISSION_CHOOSE_PHOTO, perms);
-        }
-    }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(TAG, "onActivityResult: "+bgaPhotoHelper.getCropFilePath());
+        switch (requestCode) {
+            case RxPhotoTool.GET_IMAGE_FROM_PHONE:
+                if (resultCode == RESULT_OK) {
+                    initUCrop(data.getData());
+                }
+
+                break;
+            case RxPhotoTool.GET_IMAGE_BY_CAMERA://选择照相机之后的处理
+                if (resultCode == RESULT_OK) {
+                    initUCrop(RxPhotoTool.imageUriFromCamera);
+                }
+
+                break;
+            case RxPhotoTool.CROP_IMAGE://普通裁剪后的处理
+                RequestOptions options = new RequestOptions()
+                        .placeholder(R.drawable.circle_elves_ball)
+                        .error(R.drawable.circle_elves_ball)
+                        //禁止Glide硬盘缓存缓存
+                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE);
+
+                Glide.with(UserInfoActivity.this).
+                        load(RxPhotoTool.cropImageUri).
+                        apply(options).
+                        thumbnail(0.5f).
+                        into(imageAvatar);
+                break;
+
+            case UCrop.REQUEST_CROP://UCrop裁剪之后的处理
+                if (resultCode == RESULT_OK) {
+                    resultUri = UCrop.getOutput(data);
+                    roadImageView(resultUri, imageAvatar);
+                    RxSPTool.putContent(UserInfoActivity.this, "AVATAR", resultUri.toString());
+                }
+                break;
+            default:
+                break;
+        }
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK&&data.getData()!=null) {
-            if (requestCode == REQUEST_CODE_CHOOSE_PHOTO) {
-                try {
-                    startActivityForResult(bgaPhotoHelper.getCropIntent(getFilePathFromUri(data.getData()), 200, 200), REQUEST_CODE_CROP);
-                } catch (Exception e) {
-                    bgaPhotoHelper.deleteCropFile();
-                    BGAPhotoPickerUtil.show(R.string.bga_pp_not_support_crop);
-                    e.printStackTrace();
-                }
-            } else if (requestCode == REQUEST_CODE_CROP) {
-              BGAImage.display(imageAvatar, R.mipmap.bga_pp_ic_holder_light, bgaPhotoHelper.getCropFilePath(), BGABaseAdapterUtil.dp2px(200));
-            }
-        }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    private void roadImageView(Uri uri, ImageView imageView) {
+        RequestOptions options = new RequestOptions()
+                .placeholder(R.drawable.circle_elves_ball)
+                .error(R.drawable.circle_elves_ball)
+                .transform(new CircleCrop())
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE);
+
+        Glide.with(UserInfoActivity.this).
+                load(uri).
+                apply(options).
+                thumbnail(0.5f).
+                into(imageView);
     }
 
-    @Override
-    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+    private void initUCrop(Uri uri) {
+        SimpleDateFormat timeFormatter = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.CHINA);
+        long time = System.currentTimeMillis();
+        String imageName = timeFormatter.format(new Date(time));
+        Uri destinationUri = Uri.fromFile(new File(getCacheDir(), imageName + ".jpeg"));
+        UCrop.Options options = new UCrop.Options();
+        options.setAllowedGestures(UCropActivity.SCALE, UCropActivity.ROTATE, UCropActivity.ALL);
+        options.setToolbarColor(ActivityCompat.getColor(this, R.color.colorPrimary));
+        options.setStatusBarColor(ActivityCompat.getColor(this, R.color.colorPrimaryDark));
+        options.setMaxScaleMultiplier(5);
+        options.setImageToCropBoundsAnimDuration(666);
 
+        UCrop.of(uri, destinationUri)
+                .withAspectRatio(1, 1)
+                .withMaxResultSize(1000, 1000)
+                .withOptions(options)
+                .start(this);
     }
 
-    @Override
-    public void onPermissionsDenied(int requestCode,@NonNull List<String> perms) {
-    }
-
-    private  String getFilePathFromUri(Uri uri) {
-        if (uri == null) {
-            return null;
-        }
-
-        String scheme = uri.getScheme();
-        String filePath = null;
-        if (TextUtils.isEmpty(scheme) || TextUtils.equals(ContentResolver.SCHEME_FILE, scheme)) {
-            filePath = uri.getPath();
-        } else if (TextUtils.equals(ContentResolver.SCHEME_CONTENT, scheme)) {
-            String[] filePathColumn = {MediaStore.MediaColumns.DATA};
-            Cursor cursor = BGABaseAdapterUtil.getApp().getContentResolver().query(uri, filePathColumn, null, null, null);
-            if (cursor != null) {
-                if (cursor.moveToFirst()) {
-                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                    if (columnIndex > -1) {
-                        filePath = cursor.getString(columnIndex);
-                    }
-                }
-                cursor.close();
-            }
-        }
-        return filePath;
-    }
 
 }

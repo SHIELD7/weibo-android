@@ -101,4 +101,15 @@ dependencies {
     implementation 'com.lxj:xpopup:1.8.3-x'
 
 
+    implementation "com.github.vondear.RxTool:RxKit:2.3.9"
+
+    //UI库
+    implementation "com.github.vondear.RxTool:RxUI:2.3.9"
+
+    //相机库
+    implementation "com.github.vondear.RxTool:RxCamera:2.3.9"
+
+    implementation 'com.github.yalantis:ucrop:2.2.3'
+
+
 }

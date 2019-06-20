@@ -13,23 +13,19 @@
         android:elevation="4dp"
         app:titleTextColor="@color/white"/>
 
-    <ImageView
+    <cn.bingoogolapple.photopicker.widget.BGAImageView
         android:id="@+id/img_avatar"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_margin="30dp"
-        android:src="@mipmap/bga_pp_ic_holder_light" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/choose_system"
-        android:text="从系统相册选择头像" />
-
+        android:src="@mipmap/bga_pp_ic_holder_light"
+        app:bga_iv_circle="true"/>
 
     <Button
         android:id="@+id/btn_submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/primary_text"
         android:text="提交修改" />
 </LinearLayout>
