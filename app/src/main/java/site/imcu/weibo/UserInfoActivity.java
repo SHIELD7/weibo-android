@@ -1,9 +1,11 @@
 package site.imcu.weibo;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -40,6 +42,8 @@ import butterknife.OnClick;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -54,6 +58,7 @@ import static com.vondear.rxui.view.dialog.RxDialogChooseImage.LayoutType.TITLE;
 public class UserInfoActivity extends AppCompatActivity{
 
     private static final String TAG = "UserInfoActivity";
+
 
     @BindView(R.id.img_avatar)
     ImageView imageAvatar;
@@ -78,9 +83,16 @@ public class UserInfoActivity extends AppCompatActivity{
         imageAvatar.setOnClickListener(v -> initDialogChooseImage());
     }
 
+    @AfterPermissionGranted(2)
     private void initDialogChooseImage() {
-        RxDialogChooseImage dialogChooseImage = new RxDialogChooseImage(UserInfoActivity.this, TITLE);
-        dialogChooseImage.show();
+        String[] perms = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
+        if (EasyPermissions.hasPermissions(this, perms)) {
+            RxDialogChooseImage dialogChooseImage = new RxDialogChooseImage(UserInfoActivity.this, TITLE);
+            dialogChooseImage.show();
+        } else {
+            EasyPermissions.requestPermissions(this, "请开起存储空间和相机权限，以正常使用", 2, perms);
+        }
+
     }
 
 
@@ -235,6 +247,12 @@ public class UserInfoActivity extends AppCompatActivity{
                 .withMaxResultSize(1000, 1000)
                 .withOptions(options)
                 .start(this);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
 

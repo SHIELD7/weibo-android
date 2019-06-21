@@ -73,6 +73,5 @@
             android:text="@string/link_login"
             android:gravity="center"
             android:textSize="16sp"/>
-
     </LinearLayout>
 </ScrollView>
