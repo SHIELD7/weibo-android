@@ -11,7 +11,8 @@
         android:minHeight="48dp"
         android:background="?attr/colorPrimary"
         android:elevation="4dp"
-        app:titleTextColor="@color/white"/>
+        app:titleTextColor="@color/primary_text"/>
+
 
     <cn.bingoogolapple.photopicker.widget.BGAImageView
         android:id="@+id/img_avatar"

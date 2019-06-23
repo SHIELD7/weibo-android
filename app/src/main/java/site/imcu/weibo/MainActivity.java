@@ -84,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void initView() {
-
         setSupportActionBar(toolbar);
         if (getSupportActionBar()!=null){
             getSupportActionBar().setTitle(R.string.app_name);
@@ -122,16 +121,16 @@ public class MainActivity extends AppCompatActivity {
                 .withActivity(this)
                 .withAccountHeader(headerResult)
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withName(R.string.drawer_profile).withIcon(FontAwesome.Icon.faw_male),
-                        new PrimaryDrawerItem().withName(R.string.drawer_edit_profile).withIcon(FontAwesome.Icon.faw_edit2),
-                        new PrimaryDrawerItem().withName(R.string.drawer_comment_like).withIcon(FontAwesome.Icon.faw_heart2),
-                        new PrimaryDrawerItem().withName(R.string.drawer_collect).withIcon(FontAwesome.Icon.faw_star2),
-                        new PrimaryDrawerItem().withName(R.string.drawer_friends).withIcon(FontAwesome.Icon.faw_user2),
-                        new PrimaryDrawerItem().withName(R.string.drawer_topic).withIcon(FontAwesome.Icon.faw_hashtag),
-                        new PrimaryDrawerItem().withName(R.string.drawer_theme).withIcon(FontAwesome.Icon.faw_paint_brush),
-                        new PrimaryDrawerItem().withName(R.string.drawer_setting).withIcon(FontAwesome.Icon.faw_cog),
-                        new PrimaryDrawerItem().withName(R.string.drawer_github).withIcon(FontAwesome.Icon.faw_github),
-                        new PrimaryDrawerItem().withName(R.string.drawer_logout).withIcon(FontAwesome.Icon.faw_sign_out_alt)
+                        new PrimaryDrawerItem().withName(R.string.drawer_profile).withIcon(FontAwesome.Icon.faw_male).withSelectedIconColor(getColor(R.color.blue)).withSelectedTextColor(getColor(R.color.blue)),
+                        new PrimaryDrawerItem().withName(R.string.drawer_edit_profile).withIcon(FontAwesome.Icon.faw_edit2).withSelectedIconColor(getColor(R.color.blue)).withSelectedTextColor(getColor(R.color.blue)),
+                        new PrimaryDrawerItem().withName(R.string.drawer_comment_like).withIcon(FontAwesome.Icon.faw_heart2).withSelectedIconColor(getColor(R.color.blue)).withSelectedTextColor(getColor(R.color.blue)),
+                        new PrimaryDrawerItem().withName(R.string.drawer_collect).withIcon(FontAwesome.Icon.faw_star2).withSelectedIconColor(getColor(R.color.blue)).withSelectedTextColor(getColor(R.color.blue)),
+                        new PrimaryDrawerItem().withName(R.string.drawer_friends).withIcon(FontAwesome.Icon.faw_user2).withSelectedIconColor(getColor(R.color.blue)).withSelectedTextColor(getColor(R.color.blue)),
+                        new PrimaryDrawerItem().withName(R.string.drawer_topic).withIcon(FontAwesome.Icon.faw_hashtag).withSelectedIconColor(getColor(R.color.blue)).withSelectedTextColor(getColor(R.color.blue)),
+                        new PrimaryDrawerItem().withName(R.string.drawer_theme).withIcon(FontAwesome.Icon.faw_paint_brush).withSelectedIconColor(getColor(R.color.blue)).withSelectedTextColor(getColor(R.color.blue)),
+                        new PrimaryDrawerItem().withName(R.string.drawer_setting).withIcon(FontAwesome.Icon.faw_cog).withSelectedIconColor(getColor(R.color.blue)).withSelectedTextColor(getColor(R.color.blue)),
+                        new PrimaryDrawerItem().withName(R.string.drawer_github).withIcon(FontAwesome.Icon.faw_github).withSelectedIconColor(getColor(R.color.blue)).withSelectedTextColor(getColor(R.color.blue)),
+                        new PrimaryDrawerItem().withName(R.string.drawer_logout).withIcon(FontAwesome.Icon.faw_sign_out_alt).withSelectedIconColor(getColor(R.color.blue)).withSelectedTextColor(getColor(R.color.blue))
                 )
                 .withOnDrawerItemClickListener((View view, int position, IDrawerItem drawerItem)-> onDrawerItemClicked(drawerItem))
                 .build();

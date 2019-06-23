@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
-        <activity android:name=".CollectActivity"></activity>
+        <activity android:name=".CollectActivity"/>
         <activity android:name=".UserInfoActivity" />
         <activity android:name=".WeiboActivity" />
         <activity android:name=".PostActivity" />

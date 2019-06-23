@@ -14,7 +14,7 @@
         android:minHeight="48dp"
         android:background="?attr/colorPrimary"
         android:elevation="4dp"
-        app:titleTextColor="@color/white"/>
+        app:titleTextColor="@color/primary_text"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

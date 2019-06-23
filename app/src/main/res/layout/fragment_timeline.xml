@@ -26,7 +26,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:src="@android:drawable/ic_menu_send"
-        app:fab_colorNormal="@color/colorPrimary"
-        app:fab_colorPressed="@color/colorAccent"/>
+        app:fab_colorNormal="@color/blue"
+        app:fab_colorPressed="@color/blue_trans"/>
 
 </FrameLayout>
