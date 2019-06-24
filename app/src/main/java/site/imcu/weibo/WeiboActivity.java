@@ -55,8 +55,6 @@ public class WeiboActivity extends AppCompatActivity {
     TextView contentText;
     @BindView(R.id.weibo_photos)
     BGANinePhotoLayout bgaNinePhotoLayout;
-    @BindView(R.id.refreshLayout)
-    SmartRefreshLayout smartRefreshLayout;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.btn_add_comment)

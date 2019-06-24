@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.squareup.picasso.Picasso;
 import com.vondear.rxtool.RxPhotoTool;
 import com.vondear.rxtool.RxSPTool;
 import com.vondear.rxtool.RxTool;
@@ -80,6 +81,7 @@ public class UserInfoActivity extends AppCompatActivity{
             getSupportActionBar().setTitle("用户资料");
         }
         RxTool.init(this);
+        Picasso.get().load(MainActivity.HOST+MainActivity.PATH_IMG+MainActivity.CURRENT_USERVO.getFace()).into(imageAvatar);
         imageAvatar.setOnClickListener(v -> initDialogChooseImage());
     }
 
@@ -99,6 +101,10 @@ public class UserInfoActivity extends AppCompatActivity{
 
     @OnClick(R.id.btn_submit)
     public void onSubmit(){
+        if (resultUri==null||resultUri.getPath()==null){
+            Toast.makeText(UserInfoActivity.this,"还没选图",Toast.LENGTH_SHORT).show();
+            return;
+        }
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(MainActivity.HOST)
                 .addConverterFactory(GsonConverterFactory.create())
