@@ -135,11 +135,13 @@ public class PostActivity extends AppCompatActivity implements EasyPermissions.P
                     .subscribe(new Subscriber<JSONObject>() {
                         @Override
                         public void onCompleted() {
+                            progressDialog.cancel();
                         }
 
                         @Override
                         public void onError(Throwable e) {
                             progressDialog.cancel();
+                            Toast.makeText(PostActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
